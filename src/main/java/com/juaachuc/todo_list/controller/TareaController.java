@@ -5,7 +5,6 @@ import com.juaachuc.todo_list.service.TareaService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.Map;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -20,8 +19,9 @@ public class TareaController {
     }
 
     @GetMapping
-    public List<Tarea> obtenerTodas() {
-        return tareaService.obtenerTodas();
+    public ResponseEntity<List<Tarea>> obtenerTodas() {
+        List<Tarea> tareas = tareaService.obtenerTodas();
+        return ResponseEntity.ok(tareas);  // Devolver 200 OK con las tareas
     }
 
     @GetMapping("/{id}")
@@ -32,8 +32,9 @@ public class TareaController {
     }
 
     @PostMapping
-    public Tarea crear(@RequestBody Tarea tarea) {
-        return tareaService.guardar(tarea);
+    public ResponseEntity<Tarea> crear(@RequestBody Tarea tarea) {
+        Tarea tareaCreada = tareaService.guardar(tarea);
+        return ResponseEntity.status(201).body(tareaCreada);  // Código 201 para recurso creado
     }
 
     @PutMapping("/{id}")
@@ -60,8 +61,8 @@ public class TareaController {
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         if (tareaService.obtenerPorId(id).isPresent()) {
             tareaService.eliminar(id);
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.noContent().build();  // 204 No Content
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.notFound().build();  // 404 Not Found si no existe la tarea
     }
 }
