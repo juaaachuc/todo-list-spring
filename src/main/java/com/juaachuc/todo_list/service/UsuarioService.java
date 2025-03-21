@@ -34,8 +34,6 @@ public class UsuarioService implements UserDetailsService {
         Usuario usuario = usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
 
-        System.out.println(usuario.getUsername());
-
         return User.builder()
                 .username(usuario.getUsername())
                 .password(usuario.getPassword())

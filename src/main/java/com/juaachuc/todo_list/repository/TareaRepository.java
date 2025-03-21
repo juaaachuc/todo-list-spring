@@ -1,9 +1,13 @@
 package com.juaachuc.todo_list.repository;
 
 import com.juaachuc.todo_list.model.Tarea;
+import com.juaachuc.todo_list.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
 
-@Repository
-public interface TareaRepository extends JpaRepository<Tarea, Long> {}
+public interface TareaRepository extends JpaRepository<Tarea, Long> {
+    List<Tarea> findByUsuario(Usuario usuario);
+    Optional<Tarea> findByIdAndUsuario(Long id, Usuario usuario);
+}
